@@ -3,8 +3,10 @@ package com.sky.controller.admin;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
@@ -12,10 +14,7 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,4 +83,47 @@ public class EmployeeController {
         employeeService.add(employeeDTO);
         return Result.success();
     }
+
+    /**
+     * query employees through pages
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @ApiOperation("query employees through page")
+    @GetMapping("/page")
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
+        log.info("employees show in pages", employeePageQueryDTO);
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+    @ApiOperation("able or disable employee account")
+    @PostMapping("/status/{status}")
+    public Result ableOrDisable(@PathVariable("status")Integer status, Long id) {
+        log.info("启用禁用员工账号：{},{}", status, id);
+        employeeService.ableOrDisable(status, id);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("get employee by id")
+    public Result<Employee> getEmpById(@PathVariable("id")Long id) {
+        log.info("查询id为员工信息:{}", id);
+        Employee employee = employeeService.getEmpById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * edit employee information
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping()
+    @ApiOperation("edit employee information")
+    public Result updateEmp(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("edit employee information");
+        employeeService.updateEmp(employeeDTO);
+        return Result.success();
+    }
+
 }
