@@ -68,6 +68,8 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.update(category);
     }
 
+    //user end interface
+
     @Override
     public List<Category> list(Integer type) {
         return categoryMapper.list(type);
