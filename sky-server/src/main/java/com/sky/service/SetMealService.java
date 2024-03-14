@@ -9,4 +9,6 @@ public interface SetMealService {
     List<Setmeal> list(Setmeal setmeal);
 
     List<DishItemVO> getDishItemById(Long id);
+
+    Setmeal getById(Long id);
 }

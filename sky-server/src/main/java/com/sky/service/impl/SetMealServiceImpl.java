@@ -23,4 +23,10 @@ public class SetMealServiceImpl implements SetMealService {
     public List<DishItemVO> getDishItemById(Long id) {
         return setMealMapper.getDishItemBySetMealId(id);
     }
+
+    @Override
+    public Setmeal getById(Long id) {
+        Setmeal setmeal = setMealMapper.getById(id);
+        return setmeal;
+    }
 }
