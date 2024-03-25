@@ -16,4 +16,7 @@ public interface OrderMapper {
       List<Orders> getByStautsAndOrderTime(Integer status, LocalDateTime orderTime);
 
       void update(Orders orders);
+
+      @Select("SELECT * from sky_take_out.orders where id = #{id}")
+      Orders getById(Long id);
 }
